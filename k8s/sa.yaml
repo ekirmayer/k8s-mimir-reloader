@@ -3,3 +3,4 @@ kind: ServiceAccount
 metadata:
   name: mimirtool-reloader
   namespace: mimir
+automountServiceAccountToken: false
