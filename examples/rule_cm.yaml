@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-mimir-rules1
+  namespace: mimir
+  labels:
+    findme: "yea"
+data:
+  test_ruller2.mimir_alerts2.yaml: |
+    namespace: test_ruller2
+    groups:
+      - name: mimir_alerts2
+        rules:
+          - alert: MimirIngesterUnhealthy
+            expr: |-
+              min by (cluster, namespace) (cortex_ring_members{name="ingester",state="Unhealthy"}) > 0
+            for: 15m
+            labels:
+              severity: critical
+            annotations:
+              message: Mimir cluster test/monitoring has {{ printf "%f" $value }} unhealthy ingester(s).
+              runbook_url: https://grafana.com/docs/mimir/latest/operators-guide/mimir-runbooks/#mimiringesterunhealthy
